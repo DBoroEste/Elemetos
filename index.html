@@ -9,20 +9,20 @@
     body { font-family: sans-serif; background: #f7f7f7; }
     .terminal { background: #181818; color: #fafafa; padding: 1em; border-radius: 8px; margin-top: 20px; }
     label, input { margin: 0.2em; }
+    #resultado { margin-top: 1em; font-weight: bold; }
+    button { margin-top: 0.5em; }
   </style>
 </head>
 <body>
   <h1>Test interactivo de elementos químicos (PyScript)</h1>
-  <p>¡Completa los campos y pulsa "Comprobar"!</p>
+  <p>Completa los campos y pulsa "Comprobar". Pulsa "Siguiente elemento" para un nuevo test.</p>
   <div class="terminal">
     <div id="elemento-pregunta"></div>
-    <form id="form-test" onsubmit="return false;">
-      <label>Elemento: <input type="text" id="input-elemento"></label><br>
-      <label>Símbolo: <input type="text" id="input-simbolo"></label><br>
-      <label>Posición: <input type="text" id="input-posicion"></label><br>
-      <button id="btn-comprobar" type="button">Comprobar</button>
-      <button id="btn-nueva" type="button">Siguiente elemento</button>
-    </form>
+    <label>Elemento: <input type="text" id="input-elemento"></label><br>
+    <label>Símbolo: <input type="text" id="input-simbolo"></label><br>
+    <label>Posición: <input type="text" id="input-posicion"></label><br>
+    <button id="btn-comprobar">Comprobar</button>
+    <button id="btn-nueva">Siguiente elemento</button>
     <div id="resultado"></div>
   </div>
   <py-script>
@@ -33,7 +33,7 @@ elementos = [
     ["Hidrógeno","H","G1 P1"],["Litio","Li","G1 P2"],["Sodio","Na","G1 P3"],["Potasio","K","G1 P4"],["Rubidio","Rb","G1 P5"],["Cesio","Cs","G1 P6"],["Francio","Fr","G1 P7"],["Berilio","Be","G2 P2"],["Magnesio","Mg","G2 P3"],["Calcio","Ca","G2 P4"],["Estroncio","Sr","G2 P5"],["Bario","Ba","G2 P6"],["Radio","Ra","G2 P7"],["Boro","B","G13 P2"],["Aluminio","Al","G13 P3"],["Galio","Ga","G13 P4"],["Indio","In","G13 P5"],["Talio","Tl","G13 P6"],["Carbono","C","G14 P2"],["Silicio","Si","G14 P3"],["Germanio","Ge","G14 P4"],["Estaño","Sn","G14,P5"],
 ]
 
-def nueva_pregunta():
+def nueva_pregunta(*args):
     global eleccion
     eleccion = random.choice(elementos)
     document.getElementById("elemento-pregunta").innerText = f"Símbolo: {eleccion[1]}, Posición: {eleccion[2]}"
@@ -42,7 +42,7 @@ def nueva_pregunta():
     document.getElementById("input-posicion").value = ""
     document.getElementById("resultado").innerText = ""
 
-def comprobar(_=None):
+def comprobar(*args):
     elemento = document.getElementById("input-elemento").value
     simbolo = document.getElementById("input-simbolo").value
     posicion = document.getElementById("input-posicion").value
@@ -50,23 +50,23 @@ def comprobar(_=None):
     if elemento.lower() == eleccion[0].lower():
         res.append(f"Elemento correcto ✔️")
     else:
-        res.append(f"Elemento incorrecto ❌ ({eleccion[0]})")
+        res.append(f"Elemento incorrecto ❌ (Correcto: {eleccion[0]})")
     if simbolo == eleccion[1]:
         res.append(f"Símbolo correcto ✔️")
     else:
-        res.append(f"Símbolo incorrecto ❌ ({eleccion[1]})")
+        res.append(f"Símbolo incorrecto ❌ (Correcto: {eleccion[1]})")
     if posicion == eleccion[2]:
         res.append(f"Posición correcta ✔️")
     else:
-        res.append(f"Posición incorrecta ❌ ({eleccion[2]})")
-    document.getElementById("resultado").innerText = "\n".join(res)
+        res.append(f"Posición incorrecta ❌ (Correcto: {eleccion[2]})")
+    document.getElementById("resultado").innerText = "\\n".join(res)
 
-pyscript.run_js("document.getElementById('btn-comprobar').onclick = ()=>{}")  # placeholder
-pyscript.run_js("document.getElementById('btn-nueva').onclick = ()=>{}")      # placeholder
 from pyodide.ffi import create_proxy
-document.getElementById("btn-comprobar").onclick = create_proxy(comprobar)
-document.getElementById("btn-nueva").onclick = create_proxy(lambda _: nueva_pregunta())
+document.getElementById("btn-comprobar").addEventListener("click", create_proxy(comprobar))
+document.getElementById("btn-nueva").addEventListener("click", create_proxy(nueva_pregunta))
 nueva_pregunta()
   </py-script>
+</body>
+</html>
 </body>
 </html>
