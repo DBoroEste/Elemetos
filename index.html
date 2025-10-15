@@ -2,10 +2,42 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>¡Bienvenido a mi GitHub Page!</title>
+  <title>Test de elementos con PyScript</title>
+  <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+  <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+  <style>
+    body { font-family: sans-serif; background: #f7f7f7; }
+    .terminal { background: #181818; color: #fafafa; padding: 1em; border-radius: 8px; margin-top: 20px; }
+    .pyscript { font-size: 1.1em; }
+  </style>
 </head>
 <body>
-  <h1>Hola, mundo</h1>
-  <p>¡Esta es mi página de GitHub Pages!</p>
+  <h1>Test interactivo de elementos químicos (PyScript)</h1>
+  <p>Presiona "Run" para ejecutar el test. <br>
+  <b>Nota:</b> La función <code>input()</code> no funciona igual en la web. Puedes modificar el código para pedir datos con <code>py-inputbox</code> o mostrar solo resultados.</p>
+  <div class="terminal">
+    <py-repl auto-generate="true">
+import random
+elementos = [
+    ["Hidrógeno","H","G1 P1"],["Litio","Li","G1 P2"],["Sodio","Na","G1 P3"],["Potasio","K","G1 P4"],["Rubidio","Rb","G1 P5"],["Cesio","Cs","G1 P6"],["Francio","Fr","G1 P7"],["Berilio","Be","G2 P2"],["Magnesio","Mg","G2 P3"],["Calcio","Ca","G2 P4"],["Estroncio","Sr","G2 P5"],["Bario","Ba","G2 P6"],["Radio","Ra","G2 P7"],["Boro","B","G13 P2"],["Aluminio","Al","G13 P3"],["Galio","Ga","G13 P4"],["Indio","In","G13 P5"],["Talio","Tl","G13 P6"],["Carbono","C","G14 P2"],["Silicio","Si","G14 P3"],["Germanio","Ge","G14 P4"],["Estaño","Sn","G14,P5"],
+]
+
+print("Este es el test de los elementos. (Solo funciona print y lógica en la web, no input)")
+
+elección = random.choice(elementos)
+print("Elemento aleatorio: ", elección)
+
+# Ejemplo de comparación manual:
+# Escribe en el REPL:
+# elemento = "Hidrógeno"
+# símbolo = "H"
+# posición = "G1 P1"
+# print(elemento == elección[0])
+    </py-repl>
+  </div>
+  <hr>
+  <p>
+    Más info sobre PyScript: <a href="https://pyscript.net/" target="_blank">https://pyscript.net/</a>
+  </p>
 </body>
 </html>
